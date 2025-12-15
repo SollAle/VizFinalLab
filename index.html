@@ -17,14 +17,18 @@ index_html = """
 <body>
   <h1>Worlds 2025 — Champion Dashboard</h1>
 
-  <div class="tabs">
-    <button class="tabbtn active" data-tab="t1">Pick% vs Win%</button>
-    <!-- Add more buttons as you create more charts -->
-  </div>
+ <div class="tabs">
+  <button class="tabbtn active" data-tab="t1">Pick% vs Win%</button>
+  <button class="tabbtn" data-tab="t2">Pick+Ban (Role leaders)</button>
+  <button class="tabbtn" data-tab="t3">Role Heatmap</button>
+  <button class="tabbtn" data-tab="t4">Early Gold vs Win%</button>
+</div>
 
-  <div id="t1" class="panel active">
-    <iframe src="champ_scatter.html"></iframe>
-  </div>
+<div id="t1" class="panel active"><iframe src="champ_scatter.html"></iframe></div>
+<div id="t2" class="panel"><iframe src="top_champions_bar.html"></iframe></div>
+<div id="t3" class="panel"><iframe src="meta_heatmap.html"></iframe></div>
+<div id="t4" class="panel"><iframe src="early_gold_vs_win_rate.html"></iframe></div>
+
 
   <script>
     const btns = document.querySelectorAll(".tabbtn");
