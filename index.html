@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Worlds 2025 — Esports Data Visualization</title>
 
   <style>
@@ -32,7 +32,9 @@
       background: #1c1c1c;
       padding: 12px;
       border-bottom: 1px solid #333;
-      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     nav button {
@@ -48,12 +50,28 @@
     nav button:hover { background: #3a3a3a; }
     nav button.active { background: #007acc; }
 
-    /* Story tab */
+    /* Story tab layout */
     .tab {
       display: none;
       padding: 30px;
-      max-width: 1200px;
-      margin: auto;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Dashboard tabs: full-width and tall enough for legends */
+    .dashboard-tab {
+      display: none;
+      padding: 18px 18px 28px 18px;
+      max-width: 100%;
+      margin: 0;
+    }
+
+    .dashboard-tab iframe {
+      width: 100%;
+      height: 1100px; /* bump this up if any legend still clips */
+      border: none;
+      display: block;
+      background: transparent;
     }
 
     .story-box {
@@ -65,21 +83,6 @@
       margin-top: 0;
       color: #ffffff;
     }
-
-    /* Dashboard tabs (full width, larger iframe height for legends) */
-    .dashboard-tab {
-      display: none;
-      padding: 20px;
-      max-width: 100%;
-      margin: 0;
-    }
-
-    .dashboard-tab iframe {
-      width: 100%;
-      height: 1100px; /* bump height to avoid legend cutoff */
-      border: none;
-      display: block;
-    }
   </style>
 </head>
 
@@ -89,9 +92,9 @@
   </header>
 
   <nav>
-    <button class="tab-btn active" data-tab="story">Story & Overview</button>
-    <button class="tab-btn" data-tab="champions">Champion Meta</button>
-    <button class="tab-btn" data-tab="teams">Team Performance</button>
+    <button class="tab-btn active" onclick="openTab(event, 'story')">Story & Overview</button>
+    <button class="tab-btn" onclick="openTab(event, 'champions')">Champion Meta</button>
+    <button class="tab-btn" onclick="openTab(event, 'teams')">Team Performance</button>
   </nav>
 
   <!-- STORY TAB -->
@@ -100,10 +103,10 @@
       <h2>Project Story & Key Questions</h2>
 
       <p>
-        This project explores the competitive meta and team performance trends at the
-        <b>League of Legends World Championship 2025</b>. Using professional match data from
-        Oracle’s Elixir, the dashboard investigates how champion selection, pick/ban priority,
-        and early-game performance relate to match outcomes.
+        This project explores the competitive meta and team performance trends
+        at the <b>League of Legends World Championship 2025</b>.
+        Using professional match data from Oracle’s Elixir, the dashboard investigates
+        how champion selection, pick/ban priority, and early-game performance relate to match outcomes.
       </p>
 
       <h3>Key Questions</h3>
@@ -116,15 +119,10 @@
 
       <h3>How to Use This Dashboard</h3>
       <ul>
-        <li>Go to <b>Champion Meta</b> to explore pick, ban, and win-rate relationships.</li>
-        <li>Go to <b>Team Performance</b> to analyze region strength, aggression, and objectives.</li>
-        <li>Use hover + legend clicks to isolate roles/regions/teams.</li>
+        <li>Go to <b>Champion Meta</b> to explore pick/ban/win relationships.</li>
+        <li>Go to <b>Team Performance</b> to analyze regional strength and macro factors.</li>
+        <li>Use hover + legends to isolate roles/regions/teams.</li>
       </ul>
-
-      <p>
-        Together, these visualizations tell a story about how draft priorities, early advantages,
-        and regional playstyles shape success on the world stage.
-      </p>
     </div>
   </div>
 
@@ -139,20 +137,19 @@
   </div>
 
   <script>
-    const buttons = document.querySelectorAll(".tab-btn");
-    const allTabs = document.querySelectorAll(".tab, .dashboard-tab");
+    function openTab(evt, tabId) {
+      const allTabs = document.querySelectorAll('.tab, .dashboard-tab');
+      const buttons = document.querySelectorAll('.tab-btn');
 
-    buttons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const tabId = btn.getAttribute("data-tab");
+      allTabs.forEach(t => t.style.display = 'none');
+      buttons.forEach(b => b.classList.remove('active'));
 
-        allTabs.forEach(t => t.style.display = "none");
-        buttons.forEach(b => b.classList.remove("active"));
+      document.getElementById(tabId).style.display = 'block';
+      evt.currentTarget.classList.add('active');
 
-        document.getElementById(tabId).style.display = "block";
-        btn.classList.add("active");
-      });
-    });
+      // optional: jump to top so the user sees the start of the dashboard
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   </script>
 </body>
 </html>
