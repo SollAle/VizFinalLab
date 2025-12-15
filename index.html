@@ -1,242 +1,185 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Worlds 2025 Dashboard</title>
+  <meta charset="UTF-8">
+  <title>Worlds 2025 – Esports Data Visualization</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    :root{
-      --bg:#0b0f14;
-      --panel:#111827;
-      --panel2:#0f172a;
-      --text:#e5e7eb;
-      --muted:#9ca3af;
-      --border:#1f2937;
-      --accent:#60a5fa;
+    /* ---------- GLOBAL DARK THEME ---------- */
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #0e1117;
+      color: #e6e6e6;
     }
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+
+    h1, h2, h3 {
+      color: #ffffff;
     }
-    header{
-      padding: 18px 20px;
-      border-bottom: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(17,24,39,.95), rgba(11,15,20,.95));
+
+    p {
+      max-width: 900px;
+      line-height: 1.6;
+      color: #d0d0d0;
+    }
+
+    /* ---------- NAV BAR ---------- */
+    .navbar {
+      display: flex;
+      justify-content: center;
+      background-color: #161b22;
+      padding: 12px;
+      border-bottom: 1px solid #30363d;
       position: sticky;
       top: 0;
-      z-index: 10;
-      backdrop-filter: blur(6px);
+      z-index: 1000;
     }
-    .title{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-    h1{
-      font-size: 18px;
-      margin:0;
-      letter-spacing: .2px;
-    }
-    .subtitle{
-      margin-top:6px;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.35;
-    }
-    .tabs{
-      margin-top: 14px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .tab-btn{
-      border: 1px solid var(--border);
-      background: var(--panel);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 10px;
+
+    .nav-button {
+      background: none;
+      border: none;
+      color: #c9d1d9;
+      font-size: 16px;
+      margin: 0 15px;
       cursor: pointer;
-      font-weight: 600;
-      font-size: 13px;
-    }
-    .tab-btn[aria-selected="true"]{
-      border-color: rgba(96,165,250,.55);
-      box-shadow: 0 0 0 3px rgba(96,165,250,.15);
-      color: white;
+      padding: 6px 10px;
     }
 
-    main{
-      padding: 16px 16px 26px;
-      max-width: 1200px;
-      margin: 0 auto;
+    .nav-button:hover {
+      color: #58a6ff;
     }
 
-    .card{
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 14px;
-      margin-bottom: 14px;
-    }
-    .card h2{
-      margin:0 0 8px 0;
-      font-size: 14px;
-      letter-spacing: .2px;
-    }
-    .card p{
-      margin: 6px 0 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
+    .nav-button.active {
+      color: #58a6ff;
+      border-bottom: 2px solid #58a6ff;
     }
 
-    .iframe-wrap{
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
+    /* ---------- SECTIONS ---------- */
+    .section {
+      display: none;
+      padding: 40px 20px;
+      max-width: 1400px;
+      margin: auto;
     }
-    iframe{
+
+    .section.active {
+      display: block;
+    }
+
+    /* ---------- STORY / ABOUT ---------- */
+    .story-box {
+      background-color: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 30px;
+      margin-top: 20px;
+    }
+
+    /* ---------- IFRAME DASHBOARDS ---------- */
+    iframe {
       width: 100%;
       height: 900px;
-      border: 0;
-      display:block;
-      background: transparent;
+      border: none;
+      margin-top: 20px;
+      border-radius: 8px;
+      background-color: #0e1117;
     }
 
-    .row{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-    .pill{
-      display:inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(96,165,250,.12);
-      border: 1px solid rgba(96,165,250,.25);
-      color: var(--text);
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .linkbtn{
-      display:inline-block;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--panel);
-      color: var(--text);
-      font-size: 12px;
-      font-weight: 600;
-      text-decoration:none;
-    }
-    .linkbtn:hover{ border-color: rgba(96,165,250,.55); }
-
-    .hidden{ display:none; }
-
-    footer{
-      color: var(--muted);
-      font-size: 12px;
-      padding: 18px 6px 0;
-      text-align:center;
+    /* ---------- FOOTER ---------- */
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #8b949e;
+      font-size: 14px;
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="title">
-      <div>
-        <h1>Worlds 2025 — League of Legends Dashboard</h1>
-        <div class="subtitle">
-          Focus: champion pick/ban/win patterns + team performance. Built with Plotly exports on GitHub Pages.
-        </div>
-      </div>
-      <span class="pill">Interactive: hover • zoom • legend toggle</span>
+
+  <!-- ---------- NAVIGATION ---------- -->
+  <div class="navbar">
+    <button class="nav-button active" onclick="showSection('story', this)">Story</button>
+    <button class="nav-button" onclick="showSection('champions', this)">Champion Dashboard</button>
+    <button class="nav-button" onclick="showSection('teams', this)">Team Dashboard</button>
+  </div>
+
+  <!-- ---------- STORY SECTION ---------- -->
+  <div id="story" class="section active">
+    <h1>Worlds 2025 — Esports Meta & Performance</h1>
+
+    <div class="story-box">
+      <h2>Project Motivation</h2>
+      <p>
+        Esports analytics plays a critical role in understanding competitive decision-making.
+        This project explores how champion picks, bans, and team performance metrics
+        at the 2025 League of Legends World Championship relate to match success.
+      </p>
+
+      <h2>Key Questions</h2>
+      <ul>
+        <li>Do highly picked or banned champions actually win more?</li>
+        <li>How does early-game advantage influence match outcomes?</li>
+        <li>Are certain regions consistently stronger across objective control and win rate?</li>
+      </ul>
+
+      <h2>What the Data Shows</h2>
+      <p>
+        The visualizations reveal that popularity does not always equal effectiveness.
+        Some champions are frequently picked or banned despite mediocre win rates,
+        while others quietly outperform expectations. At the team level, early-game gold
+        advantage and objective control strongly correlate with winning, particularly among
+        top-performing regions.
+      </p>
+
+      <h2>Dataset</h2>
+      <p>
+        Data sourced from Oracle’s Elixir, focusing on the Worlds 2025 Main Event.
+        Champion-level and team-level statistics were cleaned, aggregated,
+        and visualized using Python and Plotly.
+      </p>
     </div>
+  </div>
 
-    <div class="tabs" role="tablist" aria-label="Dash tabs">
-      <button class="tab-btn" role="tab" id="tab-champ" aria-controls="panel-champ" aria-selected="true">
-        Champion Dashboard
-      </button>
-      <button class="tab-btn" role="tab" id="tab-team" aria-controls="panel-team" aria-selected="false">
-        Team Dashboard
-      </button>
-    </div>
-  </header>
+  <!-- ---------- CHAMPION DASHBOARD ---------- -->
+  <div id="champions" class="section">
+    <h1>Champion Meta Dashboard</h1>
+    <p>
+      Explore champion pick rate, ban rate, and win rate relationships across roles.
+      Use hover interactions and legends to isolate specific roles or champions.
+    </p>
 
-  <main>
-    <!-- Champion Panel -->
-    <section id="panel-champ" role="tabpanel" aria-labelledby="tab-champ">
-      <div class="card">
-        <div class="row">
-          <h2>Champion Overview</h2>
-          <a class="linkbtn" href="./champions_dashboard_combined.html" target="_blank" rel="noopener">
-            Open Champion Dashboard Fullscreen
-          </a>
-        </div>
-        <p>
-          Tip: use the legend to isolate roles (double-click a role), and hover points for exact pick/ban/win values.
-        </p>
-      </div>
+    <!-- Make sure this filename matches EXACTLY -->
+    <iframe src="champions_dashboard_combined.html"></iframe>
+  </div>
 
-      <div class="iframe-wrap">
-        <!-- Make sure this filename matches what’s in /docs -->
-        <iframe src="./champions_dashboard_combined.html" loading="lazy"></iframe>
-      </div>
-    </section>
+  <!-- ---------- TEAM DASHBOARD ---------- -->
+  <div id="teams" class="section">
+    <h1>Team Performance Dashboard</h1>
+    <p>
+      Compare team success across regions using early-game advantage, aggression,
+      and objective control metrics. Region filtering is built directly into the visualizations.
+    </p>
 
-    <!-- Team Panel -->
-    <section id="panel-team" class="hidden" role="tabpanel" aria-labelledby="tab-team">
-      <div class="card">
-        <div class="row">
-          <h2>Team Overview</h2>
-          <a class="linkbtn" href="./team_dashboard_combined.html" target="_blank" rel="noopener">
-            Open Team Dashboard Fullscreen
-          </a>
-        </div>
-        <p>
-          Region filter: click legend items to show/hide regions. Double-click a region to isolate it, double-click again to reset.
-        </p>
-      </div>
+    <!-- Make sure this filename matches EXACTLY -->
+    <iframe src="team_dashboard_combined.html"></iframe>
+  </div>
 
-      <div class="iframe-wrap">
-        <!-- This should match the file you export with fig_team.write_html(...) -->
-        <iframe src="./team_dashboard_combined.html" loading="lazy"></iframe>
-      </div>
-    </section>
+  <footer>
+    CGT 470 – Data Visualization Final Project • League of Legends Worlds 2025
+  </footer>
 
-    <footer>
-      If edits aren’t showing: confirm you committed the updated HTML files into <code>/docs</code>, then hard refresh (Ctrl+F5).
-    </footer>
-  </main>
-
+  <!-- ---------- SIMPLE TAB SCRIPT ---------- -->
   <script>
-    const tabChamp = document.getElementById('tab-champ');
-    const tabTeam = document.getElementById('tab-team');
-    const panelChamp = document.getElementById('panel-champ');
-    const panelTeam = document.getElementById('panel-team');
+    function showSection(id, btn) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
 
-    function selectTab(which){
-      const champActive = which === 'champ';
-      tabChamp.setAttribute('aria-selected', champActive ? 'true' : 'false');
-      tabTeam.setAttribute('aria-selected', champActive ? 'false' : 'true');
-      panelChamp.classList.toggle('hidden', !champActive);
-      panelTeam.classList.toggle('hidden', champActive);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById(id).classList.add('active');
+      btn.classList.add('active');
     }
-
-    tabChamp.addEventListener('click', () => selectTab('champ'));
-    tabTeam.addEventListener('click', () => selectTab('team'));
   </script>
+
 </body>
 </html>
