@@ -1,0 +1,43 @@
+index_html = """
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Worlds 2025 Champion Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+    .tabbtn { padding: 8px 12px; border: 1px solid #ccc; background: #f7f7f7; cursor: pointer; }
+    .tabbtn.active { background: #eaeaea; font-weight: 600; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    iframe { width: 100%; height: 780px; border: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h1>Worlds 2025 — Champion Dashboard</h1>
+
+  <div class="tabs">
+    <button class="tabbtn active" data-tab="t1">Pick% vs Win%</button>
+    <!-- Add more buttons as you create more charts -->
+  </div>
+
+  <div id="t1" class="panel active">
+    <iframe src="champ_scatter.html"></iframe>
+  </div>
+
+  <script>
+    const btns = document.querySelectorAll(".tabbtn");
+    const panels = document.querySelectorAll(".panel");
+    btns.forEach(b => b.addEventListener("click", () => {
+      btns.forEach(x => x.classList.remove("active"));
+      panels.forEach(p => p.classList.remove("active"));
+      b.classList.add("active");
+      document.getElementById(b.dataset.tab).classList.add("active");
+    }));
+  </script>
+</body>
+</html>
+"""
+with open("docs/index.html", "w", encoding="utf-8") as f:
+    f.write(index_html)
