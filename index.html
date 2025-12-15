@@ -1,49 +1,204 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Worlds 2025 Dashboard</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Worlds 2025 — Esports Dashboard</title>
+
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; }
-    header { padding: 14px 18px; border-bottom: 1px solid #ddd; }
-    .tabs { display: flex; gap: 10px; padding: 10px 18px; border-bottom: 1px solid #eee; }
-    .tabs button {
-      padding: 10px 12px; border: 1px solid #ddd; background: #f7f7f7;
-      cursor: pointer; border-radius: 6px;
+    :root{
+      --bg:#0b0f17;
+      --panel:#121a26;
+      --panel2:#0f1622;
+      --text:#e8eefc;
+      --muted:#a9b4cc;
+      --border:rgba(255,255,255,.12);
+      --shadow:0 12px 30px rgba(0,0,0,.35);
+      --btn:rgba(255,255,255,.06);
+      --btnHover:rgba(255,255,255,.10);
+      --btnActive:rgba(255,255,255,.16);
     }
-    .tabs button.active { background: #fff; border-bottom-color: #fff; font-weight: 600; }
-    .frame-wrap { height: calc(100vh - 120px); padding: 12px 18px; }
-    iframe { width: 100%; height: 100%; border: 1px solid #ddd; border-radius: 8px; }
-    .hint { color: #666; font-size: 13px; margin-top: 6px; }
+
+    body{
+      margin:0;
+      font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:linear-gradient(180deg, var(--bg), #070a10);
+      color:var(--text);
+    }
+
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background:rgba(10,14,22,.75);
+      border-bottom:1px solid var(--border);
+    }
+
+    .wrap{ max-width:1200px; margin:0 auto; padding:18px 16px; }
+
+    h1{ margin:0; font-size:22px; letter-spacing:.2px; }
+    .subtitle{ margin-top:6px; color:var(--muted); font-size:14px; line-height:1.4; }
+
+    .tabs{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+    .tabbtn{
+      border:1px solid var(--border);
+      background:var(--btn);
+      color:var(--text);
+      padding:9px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      transition:transform .06s ease, background .2s ease;
+      font-size:14px;
+    }
+    .tabbtn:hover{ transform:translateY(-1px); background:var(--btnHover); }
+    .tabbtn.active{ background:var(--btnActive); border-color:rgba(255,255,255,.18); font-weight:650; }
+
+    .content{ padding:16px; }
+    .card{
+      background:linear-gradient(180deg, var(--panel), var(--panel2));
+      border:1px solid var(--border);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel{ display:none; padding:14px; }
+    .panel.active{ display:block; }
+
+    /* iframe charts */
+    iframe{
+      width:100%;
+      height:calc(100vh - 250px);
+      min-height:640px;
+      border:0;
+      background:#fff;
+      border-radius:12px;
+    }
+
+    .story{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    .story .box{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:12px 12px;
+    }
+    .story h3{ margin:0 0 8px 0; font-size:14px; }
+    .story ul{ margin:0; padding-left:18px; color:var(--muted); line-height:1.45; }
+    .kpi{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:10px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .kpi span{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      padding:6px 10px;
+      border-radius:999px;
+    }
+
+    .footer{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:10px;
+      display:flex; gap:14px; flex-wrap:wrap;
+    }
   </style>
 </head>
-<body>
-  <header>
-    <h2 style="margin:0;">Worlds 2025 — Interactive Dashboards</h2>
-    <div class="hint">Use the tabs to switch between Champion-level and Team-level views.</div>
-  </header>
 
-  <div class="tabs">
-    <button class="tabbtn active" data-src="champions_dashboard_combined.html">Champions Dashboard</button>
-    <button class="tabbtn" data-src="team_dashboard_combined.html">Teams Dashboard</button>
+<body>
+  <div class="topbar">
+    <div class="wrap">
+      <h1>Worlds 2025 — Champion Pick / Ban / Win Dashboard</h1>
+      <div class="subtitle">
+        Interactive Plotly charts exported from Colab and hosted on GitHub Pages.
+        Use tabs to explore champion priority (pick/ban) and performance.
+      </div>
+
+      <div class="tabs">
+        <button class="tabbtn active" data-tab="t_about">About / Story</button>
+        <button class="tabbtn" data-tab="t0">Overview (Combined)</button>
+        <button class="tabbtn" data-tab="t1">Pick% vs Win%</button>
+        <button class="tabbtn" data-tab="t2">Top Pick+Ban</button>
+        <button class="tabbtn" data-tab="t3">Meta Heatmap</button>
+        <button class="tabbtn" data-tab="t4">Win Rate by Role</button>
+        <button class="tabbtn" data-tab="t5">Early Gold vs Win</button>
+        <button class="tabbtn" data-tab="t6">Damage% vs Gold%</button>
+      </div>
+    </div>
   </div>
 
-  <div class="frame-wrap">
-    <iframe id="dashFrame" src="champions_dashboard_combined.html"></iframe>
+  <div class="wrap content">
+    <div class="card">
+
+      <div id="t_about" class="panel active">
+        <div class="story">
+          <div class="box">
+            <h3>What’s in the data?</h3>
+            <ul>
+              <li><b>Champion-level</b> stats: pick %, ban %, presence, win %, early leads (GD10/XPD10/CSD10), damage & gold share.</li>
+              <li><b>Team-level</b> stats: win/loss, objective control, early-game rates (FB/FT/etc.).</li>
+              <li>Source: Oracle’s Elixir exports (Worlds 2025 Main Event).</li>
+            </ul>
+          </div>
+
+          <div class="box">
+            <h3>Main story we can tell</h3>
+            <ul>
+              <li><b>Priority vs payoff:</b> Are the most picked/banned champions actually winning?</li>
+              <li><b>Role differences:</b> Which roles show the highest win% or early advantage?</li>
+              <li><b>Early game link:</b> Do early gold leads correlate with win rate for specific roles?</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="kpi">
+          <span>Tip: click legend items to isolate roles</span>
+          <span>Hover for details • drag to zoom • double-click to reset</span>
+          <span>If updates don’t show: bump VERSION + hard refresh</span>
+        </div>
+      </div>
+
+      <div id="t0" class="panel"><iframe data-src="champions_dashboard_combined.html"></iframe></div>
+      <div id="t1" class="panel"><iframe data-src="champ_pick_win_scatter.html"></iframe></div>
+      <div id="t2" class="panel"><iframe data-src="top_champions_bar.html"></iframe></div>
+      <div id="t3" class="panel"><iframe data-src="meta_heatmap.html"></iframe></div>
+      <div id="t4" class="panel"><iframe data-src="champ_win_rate_by_role.html"></iframe></div>
+      <div id="t5" class="panel"><iframe data-src="early_gold_vs_win_rate.html"></iframe></div>
+      <div id="t6" class="panel"><iframe data-src="damage_vs_gold_share.html"></iframe></div>
+
+    </div>
+
+    <div class="footer">
+      <span>Data: Oracle’s Elixir (Worlds 2025 Main Event)</span>
+      <span>Build: GitHub Pages (docs/)</span>
+    </div>
   </div>
 
   <script>
-    const frame = document.getElementById("dashFrame");
-    const buttons = document.querySelectorAll(".tabbtn");
+    // IMPORTANT: bump this every time you re-export charts and push to GitHub
+    const VERSION = "16";
 
-    buttons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        buttons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        frame.src = btn.dataset.src;
-      });
+    // Cache-bust iframe src so GitHub Pages/CDN doesn’t show older plots
+    document.querySelectorAll("iframe[data-src]").forEach(ifr => {
+      const base = ifr.getAttribute("data-src");
+      ifr.src = `${base}?v=${VERSION}`;
     });
+
+    // Tabs
+    const btns = document.querySelectorAll(".tabbtn");
+    const panels = document.querySelectorAll(".panel");
+
+    btns.forEach(b => b.addEventListener("click", () => {
+      btns.forEach(x => x.classList.remove("active"));
+      panels.forEach(p => p.classList.remove("active"));
+      b.classList.add("active");
+      document.getElementById(b.dataset.tab).classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }));
   </script>
 </body>
 </html>
