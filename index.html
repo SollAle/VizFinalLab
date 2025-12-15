@@ -1,185 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Worlds 2025 – Esports Data Visualization</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Worlds 2025 — Esports Data Visualization</title>
 
-  <style>
-    /* ---------- GLOBAL DARK THEME ---------- */
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background-color: #0e1117;
-      color: #e6e6e6;
-    }
+    <!-- Dark Mode Styling -->
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0f0f0f;
+            color: #eaeaea;
+        }
 
-    h1, h2, h3 {
-      color: #ffffff;
-    }
+        header {
+            padding: 20px;
+            text-align: center;
+            background: #161616;
+            border-bottom: 1px solid #333;
+        }
 
-    p {
-      max-width: 900px;
-      line-height: 1.6;
-      color: #d0d0d0;
-    }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
 
-    /* ---------- NAV BAR ---------- */
-    .navbar {
-      display: flex;
-      justify-content: center;
-      background-color: #161b22;
-      padding: 12px;
-      border-bottom: 1px solid #30363d;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background: #1c1c1c;
+            padding: 12px;
+            border-bottom: 1px solid #333;
+        }
 
-    .nav-button {
-      background: none;
-      border: none;
-      color: #c9d1d9;
-      font-size: 16px;
-      margin: 0 15px;
-      cursor: pointer;
-      padding: 6px 10px;
-    }
+        nav button {
+            background: #2a2a2a;
+            border: none;
+            color: #eaeaea;
+            padding: 10px 18px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
 
-    .nav-button:hover {
-      color: #58a6ff;
-    }
+        nav button:hover {
+            background: #3a3a3a;
+        }
 
-    .nav-button.active {
-      color: #58a6ff;
-      border-bottom: 2px solid #58a6ff;
-    }
+        nav button.active {
+            background: #007acc;
+        }
 
-    /* ---------- SECTIONS ---------- */
-    .section {
-      display: none;
-      padding: 40px 20px;
-      max-width: 1400px;
-      margin: auto;
-    }
+        .tab {
+            display: none;
+            padding: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
 
-    .section.active {
-      display: block;
-    }
+        .tab iframe {
+            width: 100%;
+            height: 900px;
+            border: none;
+        }
 
-    /* ---------- STORY / ABOUT ---------- */
-    .story-box {
-      background-color: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      padding: 30px;
-      margin-top: 20px;
-    }
+        .story-box {
+            line-height: 1.7;
+            font-size: 16px;
+        }
 
-    /* ---------- IFRAME DASHBOARDS ---------- */
-    iframe {
-      width: 100%;
-      height: 900px;
-      border: none;
-      margin-top: 20px;
-      border-radius: 8px;
-      background-color: #0e1117;
-    }
-
-    /* ---------- FOOTER ---------- */
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #8b949e;
-      font-size: 14px;
-    }
-  </style>
+        .story-box h2 {
+            margin-top: 0;
+            color: #ffffff;
+        }
+    </style>
 </head>
 
 <body>
 
-  <!-- ---------- NAVIGATION ---------- -->
-  <div class="navbar">
-    <button class="nav-button active" onclick="showSection('story', this)">Story</button>
-    <button class="nav-button" onclick="showSection('champions', this)">Champion Dashboard</button>
-    <button class="nav-button" onclick="showSection('teams', this)">Team Dashboard</button>
-  </div>
+<header>
+    <h1>Worlds 2025 — League of Legends Esports Meta Analysis</h1>
+</header>
 
-  <!-- ---------- STORY SECTION ---------- -->
-  <div id="story" class="section active">
-    <h1>Worlds 2025 — Esports Meta & Performance</h1>
+<nav>
+    <button class="tab-btn active" onclick="openTab('story')">Story & Overview</button>
+    <button class="tab-btn" onclick="openTab('champions')">Champion Meta</button>
+    <button class="tab-btn" onclick="openTab('teams')">Team Performance</button>
+</nav>
 
+<!-- STORY TAB -->
+<div id="story" class="tab" style="display:block;">
     <div class="story-box">
-      <h2>Project Motivation</h2>
-      <p>
-        Esports analytics plays a critical role in understanding competitive decision-making.
-        This project explores how champion picks, bans, and team performance metrics
-        at the 2025 League of Legends World Championship relate to match success.
-      </p>
+        <h2>Project Story & Key Questions</h2>
 
-      <h2>Key Questions</h2>
-      <ul>
-        <li>Do highly picked or banned champions actually win more?</li>
-        <li>How does early-game advantage influence match outcomes?</li>
-        <li>Are certain regions consistently stronger across objective control and win rate?</li>
-      </ul>
+        <p>
+            This project explores the competitive meta and team performance trends
+            at the <b>League of Legends World Championship 2025</b>.
+            Using professional match data from Oracle’s Elixir, the dashboard investigates
+            how champion selection, pick/ban priority, and early-game performance
+            relate to match outcomes.
+        </p>
 
-      <h2>What the Data Shows</h2>
-      <p>
-        The visualizations reveal that popularity does not always equal effectiveness.
-        Some champions are frequently picked or banned despite mediocre win rates,
-        while others quietly outperform expectations. At the team level, early-game gold
-        advantage and objective control strongly correlate with winning, particularly among
-        top-performing regions.
-      </p>
+        <h3>Key Questions</h3>
+        <ul>
+            <li>Which champions dominate the pick/ban meta?</li>
+            <li>Does high pick priority correlate with higher win rates?</li>
+            <li>How important is early-game advantage in winning matches?</li>
+            <li>Do teams from different regions exhibit distinct performance patterns?</li>
+        </ul>
 
-      <h2>Dataset</h2>
-      <p>
-        Data sourced from Oracle’s Elixir, focusing on the Worlds 2025 Main Event.
-        Champion-level and team-level statistics were cleaned, aggregated,
-        and visualized using Python and Plotly.
-      </p>
+        <h3>How to Use This Dashboard</h3>
+        <ul>
+            <li>Navigate to <b>Champion Meta</b> to explore pick, ban, and win-rate relationships.</li>
+            <li>Navigate to <b>Team Performance</b> to analyze regional strength, aggression, and objective control.</li>
+            <li>Use hover interactions and legends to isolate roles, regions, and teams.</li>
+        </ul>
+
+        <p>
+            Together, these visualizations tell a story about how strategic priorities,
+            early advantages, and regional playstyles shape success on the world stage.
+        </p>
     </div>
-  </div>
+</div>
 
-  <!-- ---------- CHAMPION DASHBOARD ---------- -->
-  <div id="champions" class="section">
-    <h1>Champion Meta Dashboard</h1>
-    <p>
-      Explore champion pick rate, ban rate, and win rate relationships across roles.
-      Use hover interactions and legends to isolate specific roles or champions.
-    </p>
-
-    <!-- Make sure this filename matches EXACTLY -->
+<!-- CHAMPION DASHBOARD -->
+<div id="champions" class="tab">
     <iframe src="champions_dashboard_combined.html"></iframe>
-  </div>
+</div>
 
-  <!-- ---------- TEAM DASHBOARD ---------- -->
-  <div id="teams" class="section">
-    <h1>Team Performance Dashboard</h1>
-    <p>
-      Compare team success across regions using early-game advantage, aggression,
-      and objective control metrics. Region filtering is built directly into the visualizations.
-    </p>
-
-    <!-- Make sure this filename matches EXACTLY -->
+<!-- TEAM DASHBOARD -->
+<div id="teams" class="tab">
     <iframe src="team_dashboard_combined.html"></iframe>
-  </div>
+</div>
 
-  <footer>
-    CGT 470 – Data Visualization Final Project • League of Legends Worlds 2025
-  </footer>
+<!-- TAB SCRIPT -->
+<script>
+    function openTab(tabId) {
+        const tabs = document.querySelectorAll('.tab');
+        const buttons = document.querySelectorAll('.tab-btn');
 
-  <!-- ---------- SIMPLE TAB SCRIPT ---------- -->
-  <script>
-    function showSection(id, btn) {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
+        tabs.forEach(tab => tab.style.display = 'none');
+        buttons.forEach(btn => btn.classList.remove('active'));
 
-      document.getElementById(id).classList.add('active');
-      btn.classList.add('active');
+        document.getElementById(tabId).style.display = 'block';
+        event.target.classList.add('active');
     }
-  </script>
+</script>
 
 </body>
 </html>
