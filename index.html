@@ -3,126 +3,142 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Worlds 2025 — Champion Dashboard</title>
+  <title>Worlds 2025 Champion Dashboard</title>
 
   <style>
     :root{
-      --bg:#0b0f17;
-      --panel:#121a26;
-      --panel2:#0f1622;
-      --text:#e8eefc;
-      --muted:#a9b4cc;
-      --border:rgba(255,255,255,.10);
-      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --bg:#0f1115;
+      --panel:#151a22;
+      --text:#e8e8e8;
+      --muted:#aab0bd;
+      --border:#2a3242;
+      --btn:#1b2230;
+      --btnActive:#263248;
     }
 
     body{
-      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: linear-gradient(180deg, var(--bg), #070a10);
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:var(--bg);
       color:var(--text);
     }
 
-    .topbar{
-      position: sticky; top: 0; z-index: 50;
-      backdrop-filter: blur(10px);
-      background: rgba(10,14,22,.75);
-      border-bottom: 1px solid var(--border);
+    header{
+      padding:16px 18px;
+      border-bottom:1px solid var(--border);
+      background:var(--panel);
     }
 
-    .wrap{ max-width: 1200px; margin: 0 auto; padding: 18px 16px; }
+    header h1{
+      margin:0 0 6px 0;
+      font-size:18px;
+      font-weight:700;
+    }
 
-    h1{ margin:0; font-size: 22px; letter-spacing:.2px; }
-    .subtitle{ margin-top:6px; color: var(--muted); font-size: 14px; line-height: 1.4; }
+    header p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
+    }
+
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      padding:14px 14px 24px 14px;
+    }
 
     .tabs{
-      display:flex; gap:10px; flex-wrap: wrap;
-      margin-top: 14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:12px 0 12px 0;
     }
+
     .tabbtn{
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      padding: 9px 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: transform .06s ease, background .2s ease;
-      font-size: 14px;
+      border:1px solid var(--border);
+      background:var(--btn);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:13px;
     }
-    .tabbtn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+
     .tabbtn.active{
-      background: rgba(255,255,255,.16);
-      border-color: rgba(255,255,255,.18);
-      font-weight: 650;
+      background:var(--btnActive);
+      border-color:#3a4a66;
+      font-weight:700;
     }
 
-    .content{ padding: 16px; }
-    .card{
-      background: linear-gradient(180deg, var(--panel), var(--panel2));
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
+    .panel{
+      display:none;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:10px;
     }
 
-    .panel{ display:none; }
     .panel.active{ display:block; }
 
-    /* Responsive chart area: uses viewport height so it feels “app-like” */
     iframe{
-      width: 100%;
-      height: calc(100vh - 210px);
-      min-height: 640px;
-      border: 0;
-      background: white; /* plotly pages are white */
+      width:100%;
+      height:780px;
+      border:0;
+      border-radius:10px;
+      background:#000;
     }
 
-    .footer{
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 10px;
-      display:flex; gap:14px; flex-wrap: wrap;
+    .note{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:12px;
     }
-    .footer a{ color: var(--muted); }
   </style>
 </head>
 
 <body>
-  <div class="topbar">
-    <div class="wrap">
-      <h1>Worlds 2025 — Champion Pick/Ban/Win Dashboard</h1>
-      <div class="subtitle">
-        Explore which champions were prioritized (pick/ban), and how that priority relates to win rate and early-game impact.
-        Use the tabs to switch views.
-      </div>
+  <header>
+    <h1>Worlds 2025 — Champion Pick/Ban/Win Dashboard</h1>
+    <p>
+      Interactive charts (Plotly) exported from Colab. Use tabs to switch views.
+      Tip: click legend items to hide/show roles.
+    </p>
+  </header>
 
-      <div class="tabs">
-        <button class="tabbtn active" data-tab="t0">Overview (Combined)</button>
-        <button class="tabbtn" data-tab="t1">Pick% vs Win%</button>
-        <button class="tabbtn" data-tab="t2">Top Pick+Ban</button>
-        <button class="tabbtn" data-tab="t3">Meta Heatmap</button>
-        <button class="tabbtn" data-tab="t4">Win Rate by Role</button>
-        <button class="tabbtn" data-tab="t5">Early Gold vs Win</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="wrap content">
-    <div class="card">
-      <div id="t0" class="panel active"><iframe src="champions_dashboard_combined.html"></iframe></div>
-      <div id="t1" class="panel"><iframe src="champ_pick_win_scatter.html"></iframe></div>
-      <div id="t2" class="panel"><iframe src="top_champions_bar.html"></iframe></div>
-      <div id="t3" class="panel"><iframe src="meta_heatmap.html"></iframe></div>
-      <div id="t4" class="panel"><iframe src="champ_win_rate_by_role.html"></iframe></div>
-      <div id="t5" class="panel"><iframe src="early_gold_vs_win_rate.html"></iframe></div>
+  <div class="container">
+    <div class="tabs">
+      <button class="tabbtn active" data-tab="t1">Pick% vs Win% (Scatter)</button>
+      <button class="tabbtn" data-tab="t2">Top Champs by Pick+Ban</button>
+      <button class="tabbtn" data-tab="t3">Role Meta Heatmap</button>
+      <button class="tabbtn" data-tab="t4">Win Rate by Role</button>
+      <button class="tabbtn" data-tab="t5">Early Gold vs Win Rate</button>
+      <button class="tabbtn" data-tab="t6">Damage% vs Gold%</button>
     </div>
 
-    <div class="footer">
-      <span>Data: Oracle’s Elixir (Worlds 2025 Main Event)</span>
-      <span>Tip: Hover points/bars for details • Zoom/pan on charts</span>
+    <div id="t1" class="panel active"><iframe data-src="champ_pick_win_scatter.html"></iframe></div>
+    <div id="t2" class="panel"><iframe data-src="top_champions_bar.html"></iframe></div>
+    <div id="t3" class="panel"><iframe data-src="meta_heatmap.html"></iframe></div>
+    <div id="t4" class="panel"><iframe data-src="champ_win_rate_by_role.html"></iframe></div>
+    <div id="t5" class="panel"><iframe data-src="early_gold_vs_win_rate.html"></iframe></div>
+    <div id="t6" class="panel"><iframe data-src="damage_vs_gold_share.html"></iframe></div>
+
+    <div class="note">
+      If changes don’t appear: commit/push to the branch used by GitHub Pages, then hard refresh (Ctrl+Shift+R).
     </div>
   </div>
 
   <script>
+    // Cache-bust version: bump this number whenever you push new HTML exports
+    const VERSION = "15";
+
+    // Load iframes with cache-busting query param
+    document.querySelectorAll("iframe[data-src]").forEach(ifr => {
+      const base = ifr.getAttribute("data-src");
+      ifr.src = `${base}?v=${VERSION}`;
+    });
+
+    // Tabs
     const btns = document.querySelectorAll(".tabbtn");
     const panels = document.querySelectorAll(".panel");
 
@@ -131,7 +147,6 @@
       panels.forEach(p => p.classList.remove("active"));
       b.classList.add("active");
       document.getElementById(b.dataset.tab).classList.add("active");
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }));
   </script>
 </body>
