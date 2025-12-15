@@ -1,170 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Worlds 2025 — Esports Data Visualization</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Worlds 2025 — Esports Data Visualization</title>
 
-    <!-- Dark Mode Styling -->
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #0f0f0f;
-            color: #eaeaea;
-        }
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #0f0f0f;
+      color: #eaeaea;
+    }
 
-        header {
-            padding: 20px;
-            text-align: center;
-            background: #161616;
-            border-bottom: 1px solid #333;
-        }
+    header {
+      padding: 20px;
+      text-align: center;
+      background: #161616;
+      border-bottom: 1px solid #333;
+    }
 
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
 
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            background: #1c1c1c;
-            padding: 12px;
-            border-bottom: 1px solid #333;
-        }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background: #1c1c1c;
+      padding: 12px;
+      border-bottom: 1px solid #333;
+      flex-wrap: wrap;
+    }
 
-        nav button {
-            background: #2a2a2a;
-            border: none;
-            color: #eaeaea;
-            padding: 10px 18px;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 6px;
-        }
+    nav button {
+      background: #2a2a2a;
+      border: none;
+      color: #eaeaea;
+      padding: 10px 18px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
 
-        nav button:hover {
-            background: #3a3a3a;
-        }
+    nav button:hover { background: #3a3a3a; }
+    nav button.active { background: #007acc; }
 
-        nav button.active {
-            background: #007acc;
-        }
+    /* Story tab */
+    .tab {
+      display: none;
+      padding: 30px;
+      max-width: 1200px;
+      margin: auto;
+    }
 
-        .tab {
-            display: none;
-            padding: 30px;
-            max-width: 1200px;
-            margin: auto;
-        }
-      <style>
-    /* Existing .tab stays as-is */
+    .story-box {
+      line-height: 1.7;
+      font-size: 16px;
+    }
 
-    /* Full-width dashboards */
+    .story-box h2 {
+      margin-top: 0;
+      color: #ffffff;
+    }
+
+    /* Dashboard tabs (full width, larger iframe height for legends) */
     .dashboard-tab {
-        display: none;
-        padding: 20px;
-        max-width: 100%;
-        margin: 0;
+      display: none;
+      padding: 20px;
+      max-width: 100%;
+      margin: 0;
     }
 
     .dashboard-tab iframe {
-        width: 100%;
-        height: 1000px; /* increased to prevent legend cutoff */
-        border: none;
+      width: 100%;
+      height: 1100px; /* bump height to avoid legend cutoff */
+      border: none;
+      display: block;
     }
-</style>
-
-
-        .tab iframe {
-            width: 100%;
-            height: 900px;
-            border: none;
-        }
-
-        .story-box {
-            line-height: 1.7;
-            font-size: 16px;
-        }
-
-        .story-box h2 {
-            margin-top: 0;
-            color: #ffffff;
-        }
-    </style>
+  </style>
 </head>
 
 <body>
-
-<header>
+  <header>
     <h1>Worlds 2025 — League of Legends Esports Meta Analysis</h1>
-</header>
+  </header>
 
-<nav>
-    <button class="tab-btn active" onclick="openTab('story')">Story & Overview</button>
-    <button class="tab-btn" onclick="openTab('champions')">Champion Meta</button>
-    <button class="tab-btn" onclick="openTab('teams')">Team Performance</button>
-</nav>
+  <nav>
+    <button class="tab-btn active" data-tab="story">Story & Overview</button>
+    <button class="tab-btn" data-tab="champions">Champion Meta</button>
+    <button class="tab-btn" data-tab="teams">Team Performance</button>
+  </nav>
 
-<!-- STORY TAB -->
-<div id="story" class="tab" style="display:block;">
+  <!-- STORY TAB -->
+  <div id="story" class="tab" style="display:block;">
     <div class="story-box">
-        <h2>Project Story & Key Questions</h2>
+      <h2>Project Story & Key Questions</h2>
 
-        <p>
-            This project explores the competitive meta and team performance trends
-            at the <b>League of Legends World Championship 2025</b>.
-            Using professional match data from Oracle’s Elixir, the dashboard investigates
-            how champion selection, pick/ban priority, and early-game performance
-            relate to match outcomes.
-        </p>
+      <p>
+        This project explores the competitive meta and team performance trends at the
+        <b>League of Legends World Championship 2025</b>. Using professional match data from
+        Oracle’s Elixir, the dashboard investigates how champion selection, pick/ban priority,
+        and early-game performance relate to match outcomes.
+      </p>
 
-        <h3>Key Questions</h3>
-        <ul>
-            <li>Which champions dominate the pick/ban meta?</li>
-            <li>Does high pick priority correlate with higher win rates?</li>
-            <li>How important is early-game advantage in winning matches?</li>
-            <li>Do teams from different regions exhibit distinct performance patterns?</li>
-        </ul>
+      <h3>Key Questions</h3>
+      <ul>
+        <li>Which champions dominate the pick/ban meta?</li>
+        <li>Does high pick priority correlate with higher win rates?</li>
+        <li>How important is early-game advantage in winning matches?</li>
+        <li>Do teams from different regions exhibit distinct performance patterns?</li>
+      </ul>
 
-        <h3>How to Use This Dashboard</h3>
-        <ul>
-            <li>Navigate to <b>Champion Meta</b> to explore pick, ban, and win-rate relationships.</li>
-            <li>Navigate to <b>Team Performance</b> to analyze regional strength, aggression, and objective control.</li>
-            <li>Use hover interactions and legends to isolate roles, regions, and teams.</li>
-        </ul>
+      <h3>How to Use This Dashboard</h3>
+      <ul>
+        <li>Go to <b>Champion Meta</b> to explore pick, ban, and win-rate relationships.</li>
+        <li>Go to <b>Team Performance</b> to analyze region strength, aggression, and objectives.</li>
+        <li>Use hover + legend clicks to isolate roles/regions/teams.</li>
+      </ul>
 
-        <p>
-            Together, these visualizations tell a story about how strategic priorities,
-            early advantages, and regional playstyles shape success on the world stage.
-        </p>
+      <p>
+        Together, these visualizations tell a story about how draft priorities, early advantages,
+        and regional playstyles shape success on the world stage.
+      </p>
     </div>
-</div>
+  </div>
 
-<!-- CHAMPION DASHBOARD -->
-<div id="champions" class="dashboard-tab">
+  <!-- CHAMPION DASHBOARD -->
+  <div id="champions" class="dashboard-tab">
     <iframe src="champions_dashboard_combined.html"></iframe>
-</div>
+  </div>
 
-<!-- TEAM DASHBOARD -->
-<div id="teams" class="dashboard-tab">
+  <!-- TEAM DASHBOARD -->
+  <div id="teams" class="dashboard-tab">
     <iframe src="team_dashboard_combined.html"></iframe>
-</div>
+  </div>
 
-<!-- TAB SCRIPT -->
-<script>
-    function openTab(tabId) {
-        const tabs = document.querySelectorAll('.tab, .dashboard-tab');
-        const buttons = document.querySelectorAll('.tab-btn');
+  <script>
+    const buttons = document.querySelectorAll(".tab-btn");
+    const allTabs = document.querySelectorAll(".tab, .dashboard-tab");
 
-        tabs.forEach(tab => tab.style.display = 'none');
-        buttons.forEach(btn => btn.classList.remove('active'));
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const tabId = btn.getAttribute("data-tab");
 
-        document.getElementById(tabId).style.display = 'block';
-        event.target.classList.add('active');
-    }
-</script>
+        allTabs.forEach(t => t.style.display = "none");
+        buttons.forEach(b => b.classList.remove("active"));
 
+        document.getElementById(tabId).style.display = "block";
+        btn.classList.add("active");
+      });
+    });
+  </script>
 </body>
 </html>
