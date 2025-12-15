@@ -1,121 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Worlds 2025 Esports Dashboard</title>
+    <meta charset="UTF-8">
+    <title>Worlds 2025 — Esports Data Visualization</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #0f1115;
-      color: #e6e6e6;
+    <!-- Dark Mode Styling -->
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0f0f0f;
+            color: #eaeaea;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+            background: #161616;
+            border-bottom: 1px solid #333;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background: #1c1c1c;
+            padding: 12px;
+            border-bottom: 1px solid #333;
+        }
+
+        nav button {
+            background: #2a2a2a;
+            border: none;
+            color: #eaeaea;
+            padding: 10px 18px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        nav button:hover {
+            background: #3a3a3a;
+        }
+
+        nav button.active {
+            background: #007acc;
+        }
+
+        .tab {
+            display: none;
+            padding: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+      <style>
+    /* Existing .tab stays as-is */
+
+    /* Full-width dashboards */
+    .dashboard-tab {
+        display: none;
+        padding: 20px;
+        max-width: 100%;
+        margin: 0;
     }
 
-    header {
-      padding: 20px;
-      text-align: center;
-      background-color: #161a22;
-      border-bottom: 1px solid #2a2f3a;
+    .dashboard-tab iframe {
+        width: 100%;
+        height: 1000px; /* increased to prevent legend cutoff */
+        border: none;
     }
+</style>
 
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 15px;
-      background-color: #161a22;
-    }
 
-    nav button {
-      background: none;
-      border: 1px solid #3a3f4b;
-      color: #e6e6e6;
-      padding: 8px 16px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
+        .tab iframe {
+            width: 100%;
+            height: 900px;
+            border: none;
+        }
 
-    nav button:hover {
-      background-color: #2a2f3a;
-    }
+        .story-box {
+            line-height: 1.7;
+            font-size: 16px;
+        }
 
-    section {
-      display: none;
-      padding: 20px;
-      max-width: 1400px;
-      margin: auto;
-    }
-
-    section.active {
-      display: block;
-    }
-
-    iframe {
-      width: 100%;
-      height: 900px; /* 🔴 increased height */
-      border: none;
-      margin-bottom: 40px;
-    }
-
-    .story {
-      line-height: 1.6;
-      font-size: 1.05rem;
-    }
-  </style>
-
-  <script>
-    function showSection(id) {
-      document.querySelectorAll("section").forEach(sec => {
-        sec.classList.remove("active");
-      });
-      document.getElementById(id).classList.add("active");
-    }
-  </script>
+        .story-box h2 {
+            margin-top: 0;
+            color: #ffffff;
+        }
+    </style>
 </head>
 
 <body>
-  <header>
-    <h1>Worlds 2025 — Esports Meta & Performance Dashboard</h1>
-    <p>Pick / Ban / Win Rate & Team Performance Analysis</p>
-  </header>
 
-  <nav>
-    <button onclick="showSection('story')">Story</button>
-    <button onclick="showSection('champions')">Champion Meta</button>
-    <button onclick="showSection('teams')">Team Performance</button>
-  </nav>
+<header>
+    <h1>Worlds 2025 — League of Legends Esports Meta Analysis</h1>
+</header>
 
-  <!-- STORY TAB -->
-  <section id="story" class="active story">
-    <h2>What Story Does This Data Tell?</h2>
-    <p>
-      This dashboard explores how champion priority (pick and ban rates)
-      relates to competitive success at the Worlds 2025 Main Event.
-      We examine whether highly contested champions actually translate
-      into higher win rates, and how that relationship differs across roles.
-    </p>
-    <p>
-      At the team level, we analyze how early-game advantages, objective
-      control, and aggression correlate with winning — and how regional
-      playstyles compare on the world stage.
-    </p>
-    <p>
-      Together, these views reveal the interaction between meta trends
-      and execution: which strategies are popular, which are effective,
-      and which teams best convert early advantages into wins.
-    </p>
-  </section>
+<nav>
+    <button class="tab-btn active" onclick="openTab('story')">Story & Overview</button>
+    <button class="tab-btn" onclick="openTab('champions')">Champion Meta</button>
+    <button class="tab-btn" onclick="openTab('teams')">Team Performance</button>
+</nav>
 
-  <!-- CHAMPION DASH -->
-  <section id="champions">
+<!-- STORY TAB -->
+<div id="story" class="tab" style="display:block;">
+    <div class="story-box">
+        <h2>Project Story & Key Questions</h2>
+
+        <p>
+            This project explores the competitive meta and team performance trends
+            at the <b>League of Legends World Championship 2025</b>.
+            Using professional match data from Oracle’s Elixir, the dashboard investigates
+            how champion selection, pick/ban priority, and early-game performance
+            relate to match outcomes.
+        </p>
+
+        <h3>Key Questions</h3>
+        <ul>
+            <li>Which champions dominate the pick/ban meta?</li>
+            <li>Does high pick priority correlate with higher win rates?</li>
+            <li>How important is early-game advantage in winning matches?</li>
+            <li>Do teams from different regions exhibit distinct performance patterns?</li>
+        </ul>
+
+        <h3>How to Use This Dashboard</h3>
+        <ul>
+            <li>Navigate to <b>Champion Meta</b> to explore pick, ban, and win-rate relationships.</li>
+            <li>Navigate to <b>Team Performance</b> to analyze regional strength, aggression, and objective control.</li>
+            <li>Use hover interactions and legends to isolate roles, regions, and teams.</li>
+        </ul>
+
+        <p>
+            Together, these visualizations tell a story about how strategic priorities,
+            early advantages, and regional playstyles shape success on the world stage.
+        </p>
+    </div>
+</div>
+
+<!-- CHAMPION DASHBOARD -->
+<div id="champions" class="dashboard-tab">
     <iframe src="champions_dashboard_combined.html"></iframe>
-  </section>
+</div>
 
-  <!-- TEAM DASH -->
-  <section id="teams">
+<!-- TEAM DASHBOARD -->
+<div id="teams" class="dashboard-tab">
     <iframe src="team_dashboard_combined.html"></iframe>
-  </section>
+</div>
+
+<!-- TAB SCRIPT -->
+<script>
+    function openTab(tabId) {
+        const tabs = document.querySelectorAll('.tab, .dashboard-tab');
+        const buttons = document.querySelectorAll('.tab-btn');
+
+        tabs.forEach(tab => tab.style.display = 'none');
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        document.getElementById(tabId).style.display = 'block';
+        event.target.classList.add('active');
+    }
+</script>
 
 </body>
 </html>
